@@ -11,9 +11,9 @@ script:
 
 after_success:
   - docker run -t abidex4yemi/multi-client ./client
-  - docker run -t abidex4yemi/multi-server ./client
-  - docker run -t abidex4yemi/multi-nginx ./client
-  - docker run -t abidex4yemi/multi-worker ./client
+  - docker run -t abidex4yemi/multi-server ./server
+  - docker run -t abidex4yemi/multi-nginx ./nginx
+  - docker run -t abidex4yemi/multi-worker ./worker
   # login into docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
   # push built images to docker hub
