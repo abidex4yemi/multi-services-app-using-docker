@@ -10,10 +10,10 @@ script:
   - docker run -e CI=true abidex4yemi/client-test npm test -- --coverage
 
 after_success:
-  - docker run -t abidex4yemi/multi-client ./client
-  - docker run -t abidex4yemi/multi-server ./server
-  - docker run -t abidex4yemi/multi-nginx ./nginx
-  - docker run -t abidex4yemi/multi-worker ./worker
+  - docker build -t abidex4yemi/multi-client ./client
+  - docker build -t abidex4yemi/multi-server ./server
+  - docker build -t abidex4yemi/multi-nginx ./nginx
+  - docker build -t abidex4yemi/multi-worker ./worker
   # login into docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
   # push built images to docker hub
