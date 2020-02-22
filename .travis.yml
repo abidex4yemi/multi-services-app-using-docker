@@ -4,20 +4,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t abidex4yemi/client-test -f ./client/Dockerfile.dev ./client/
+  - docker build -t $DOCKER_USERNAME/client-test -f ./client/Dockerfile.dev ./client/
 
 script:
-  - docker run -e CI=true abidex4yemi/client-test npm test -- --coverage
+  - docker run -e CI=true $DOCKER_USERNAME/client-test npm test -- --coverage
 
 after_success:
-  - docker build -t abidex4yemi/multi-client ./client
-  - docker build -t abidex4yemi/multi-server ./server
-  - docker build -t abidex4yemi/multi-nginx ./nginx
-  - docker build -t abidex4yemi/multi-worker ./worker
+  - docker build -t $DOCKER_USERNAME/multi-client ./client
+  - docker build -t $DOCKER_USERNAME/multi-server ./server
+  - docker build -t $DOCKER_USERNAME/multi-nginx ./nginx
+  - docker build -t $DOCKER_USERNAME/multi-worker ./worker
   # login into docker hub
-  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # push built images to docker hub
-  - docker push abidex4yemi/multi-client
-  - docker push abidex4yemi/multi-server
-  - docker push abidex4yemi/multi-nginx
-  - docker push abidex4yemi/multi-worker
+  - docker push $DOCKER_USERNAME/multi-client
+  - docker push $DOCKER_USERNAME/multi-server
+  - docker push $DOCKER_USERNAME/multi-nginx
+  - docker push $DOCKER_USERNAME/multi-worker
