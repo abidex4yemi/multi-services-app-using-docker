@@ -1,0 +1,23 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker build -t abidex4yemi/client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true abidex4yemi/client-test npm test -- --coverage
+
+after_success:
+  - docker run -t abidex4yemi/multi-client ./client
+  - docker run -t abidex4yemi/multi-server ./client
+  - docker run -t abidex4yemi/multi-nginx ./client
+  - docker run -t abidex4yemi/multi-worker ./client
+  # login into docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+  # push built images to docker hub
+  - docker push abidex4yemi/multi-client
+  - docker push abidex4yemi/multi-server
+  - docker push abidex4yemi/multi-nginx
+  - docker push abidex4yemi/multi-worker
