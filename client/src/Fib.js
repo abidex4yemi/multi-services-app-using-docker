@@ -65,6 +65,7 @@ const Fib = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <p>Welcome to fib series calculator app</p>
         <label>Enter your index:</label>
         <input
           type="text"
